@@ -1,0 +1,178 @@
+<title>Eye, Old Skill vs New</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: a test bench. Scenario bar and question first, then the two live figures side by side, then the scorecard. */
+:root {
+  --bg: #f2f2ef; --panel: #ffffff; --ink: #1b1b19; --muted: #5f5f5a; --rule: #d6d6cf; --chip: #e7e7e1;
+  --old: #8a5a2b; --new: #2f6b4f; --focus: #2b5d8a;
+  --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e0e0d; --panel: #161615; --ink: #e8e8e4; --muted: #9a9a93; --rule: #2c2c2a; --chip: #222220; --old: #d29a62; --new: #6fc39b; --focus: #7fb2e0; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #0e0e0d; --panel: #161615; --ink: #e8e8e4; --muted: #9a9a93; --rule: #2c2c2a; --chip: #222220; --old: #d29a62; --new: #6fc39b; --focus: #7fb2e0; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 15px/1.6 var(--body); }
+.wrap { max-width: 1440px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+header { display: grid; gap: 10px; max-width: 76ch; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(28px, 4vw, 40px)/1.1 var(--display); margin: 0; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); }
+.bench { background: var(--panel); border: 1px solid var(--rule); padding: 18px; display: grid; gap: 14px; }
+.scenarios { display: flex; flex-wrap: wrap; gap: 8px; }
+.scenarios button { font: 500 14px/1 var(--body); padding: 10px 14px; border: 1px solid var(--rule); background: var(--chip); color: var(--ink); cursor: pointer; display: inline-flex; gap: 8px; align-items: baseline; }
+.scenarios button .n { font: 500 11px/1 var(--mono); color: var(--muted); }
+.scenarios button[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.scenarios button[aria-pressed="true"] .n { color: var(--panel); opacity: .7; }
+button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.question { display: grid; gap: 8px; max-width: 90ch; }
+.question h2 { font: 600 19px/1.3 var(--display); margin: 0; text-wrap: balance; }
+.question p { margin: 0; color: var(--muted); }
+.answer { border-left: 2px solid var(--rule); padding-left: 12px; }
+.answer p { color: var(--ink); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ghost { font: 500 13px/1 var(--body); padding: 8px 12px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; }
+.vote { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13.5px; color: var(--muted); }
+.vote button { font: 500 13px/1 var(--body); padding: 8px 12px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; }
+.vote button[aria-pressed="true"][data-pick="old"] { border-color: var(--old); color: var(--old); }
+.vote button[aria-pressed="true"][data-pick="new"] { border-color: var(--new); color: var(--new); }
+.vote button[aria-pressed="true"][data-pick="neither"], .vote button[aria-pressed="true"][data-pick="both"] { border-color: var(--ink); }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 560px), 1fr)); gap: 20px; }
+.side { background: var(--panel); border: 1px solid var(--rule); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.side-head { padding: 14px 18px 12px; display: grid; gap: 4px; border-bottom: 1px solid var(--rule); }
+.tag { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.side[data-v="old"] .tag { color: var(--old); }
+.side[data-v="new"] .tag { color: var(--new); }
+.side-head p { margin: 0; color: var(--muted); font-size: 14px; }
+iframe { width: 100%; height: 780px; border: 0; display: block; background: #0b0b0b; }
+section.score { display: grid; gap: 10px; }
+h3 { font: 600 18px/1.3 var(--display); margin: 0; }
+.scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 11px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+td.pick { font-family: var(--mono); }
+td.pick[data-pick="old"] { color: var(--old); } td.pick[data-pick="new"] { color: var(--new); }
+tr:last-child td { border-bottom: 0; }
+.note { color: var(--muted); font-size: 13.5px; max-width: 86ch; margin: 0; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Anatomy skill · blind build</span>
+    <h1>How the eye works, built by the old skill and the new one</h1>
+    <p>Two fresh agents got the same request word for word: "Explain how the human eye works, as one interactive figure." One followed SKILL.md from <span style="font-family:var(--mono)">main</span>, the other the literal-first version. Neither was told what kind of object to build or that the two would be compared. Pick a scenario below to play it in both figures at once, answer the question for yourself, then reveal the answer.</p>
+    <p><b>What the test found:</b> both skills built the real eye; neither reached for a camera or another analogy. The eye is a physical subject, and the old skill already drew physical subjects as themselves (like its rocket engine). The difference between the two skills shows up on abstract ideas, such as the perceptron, which the old skill turned into a beam balance. So these two figures differ in craft and detail, not in kind.</p>
+  </header>
+
+  <div class="bench">
+    <div class="scenarios" role="group" aria-label="Scenario">
+      <button type="button" id="sc-rest" data-id="rest" aria-pressed="true"><span class="n">0</span>Rest</button>
+      <button type="button" id="sc-near" data-id="near" aria-pressed="false"><span class="n">1</span>Look at something near</button>
+      <button type="button" id="sc-dim" data-id="dim" aria-pressed="false"><span class="n">2</span>Lights go dim</button>
+      <button type="button" id="sc-blindspot" data-id="blindspot" aria-pressed="false"><span class="n">3</span>Dot on the blind spot</button>
+    </div>
+    <div class="question" aria-live="polite">
+      <h2 id="q-title"></h2>
+      <p id="q-body"></p>
+      <div class="answer" id="q-answer" hidden><p id="q-answer-text"></p></div>
+      <div class="row" id="q-tools" hidden>
+        <button type="button" class="ghost" id="reveal" aria-expanded="false">Show the answer</button>
+        <div class="vote" role="group" aria-label="Which figure answered it">
+          <span>Which figure answered it?</span>
+          <button type="button" id="v-old" data-pick="old" aria-pressed="false">Old</button>
+          <button type="button" id="v-new" data-pick="new" aria-pressed="false">New</button>
+          <button type="button" id="v-both" data-pick="both" aria-pressed="false">Both</button>
+          <button type="button" id="v-neither" data-pick="neither" aria-pressed="false">Neither</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pair">
+    <article class="side" data-v="old">
+      <div class="side-head"><span class="tag">Old skill · SKILL.md on main</span><p id="old-note">A teaching model of a right eye, cut through its horizontal plane, on a bench with a backlit target box on a rail. The box moves closer, dims, and slides its dot for each scenario. Two-surface optics.</p></div>
+      <iframe id="f-old" src="old/eye.html" title="Eye figure built with the old skill"></iframe>
+    </article>
+    <article class="side" data-v="new">
+      <div class="side-head"><span class="tag">New skill · literal first</span><p id="new-note">A right eye cut through its horizontal plane, on a specimen stand, now with its own use-case buttons and change colours. It names the rung it chose ("the subject is physical: draw the real thing"). Ray traces through Le Grand's schematic eye.</p></div>
+      <iframe id="f-new" src="new/eye.html" title="Eye figure built with the new skill"></iframe>
+    </article>
+  </div>
+
+  <section class="score">
+    <h3>Your scorecard</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Scenario</th><th>What really happens</th><th>Your pick</th></tr></thead>
+        <tbody id="score"></tbody>
+      </table>
+    </div>
+    <p class="note">The new figure has since been updated with the latest skill features: three use-case buttons under its card, and the parts and numbers that change drawn in each case's colour (violet for near focus, amber for dim light, red for the blind spot). The old figure is unchanged, as the old skill built it. Your picks are saved only in this browser. The answers are standard physiology for a young adult eye. Both figures embed their own readouts; check them against the answer, not just the motion.</p>
+  </section>
+</div>
+
+<script>
+const SCENARIOS = {
+  rest: { title: "Rest: the eye looking at something far away", body: "Look at both figures before playing anything. Can you name the parts of the eye from what you see, and say what each one does?" },
+  near: {
+    title: "1 · You look up from the horizon to a page 25 cm away. What changes inside the eye to bring it into focus?",
+    body: "Watch both figures and decide which one shows the mechanism, not just the result.",
+    short: "Ciliary muscle contracts, the lens rounds up (+4 D); the lens does not move",
+    answer: "The ciliary muscle contracts, the zonule fibres go slack and the elastic lens bulges rounder, adding about 4 dioptres of power (1 ÷ 0.25 m) to the eye's roughly 60 D. The lens stays where it is; a camera focuses by moving its lens, an eye by changing its shape. The pupil also narrows slightly and both eyes turn inward.",
+  },
+  dim: {
+    title: "2 · The room goes from daylight to dim light. What changes, and how quickly?",
+    body: "Look for both the fast change and the slow one.",
+    short: "Pupil widens 2–3 → 7–8 mm in seconds; rods take over from cones over 20–30 min",
+    answer: "Within a few seconds the iris widens the pupil from about 2–3 mm to 7–8 mm, letting in roughly ten times more light. Far more of the gain comes slowly: over 20–30 minutes the retina adapts and the rods take over from the cones, so sensitivity rises by about a million times while colour and sharp central vision fade. The centre of the fovea has no rods, so a faint star is easier to see slightly off-centre.",
+  },
+  blindspot: {
+    title: "3 · A small dot falls on the blind spot and vanishes. Why, and why don't you normally notice the gap?",
+    body: "Decide which figure shows where the blind spot is and what is there.",
+    short: "Optic disc has no rods or cones; brain fills in, other eye covers it",
+    answer: "The blind spot is the optic disc, about 1.5–1.8 mm across, where the nerve fibres and blood vessels leave the eye. It has no rods or cones, so light landing there is not detected. It sits about 15° to the nose side of the fovea, which puts the gap about 15° to the outer side of your view. You don't notice it because the brain fills it in from the surroundings and the other eye's view covers it.",
+  },
+};
+const ORDER = ["near", "dim", "blindspot"];
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem("eye-votes") || "{}"); } catch (e) { return {}; } },
+  set(v) { try { localStorage.setItem("eye-votes", JSON.stringify(v)); } catch (e) {} },
+};
+let votes = store.get(), current = "rest";
+const frames = [document.getElementById("f-old"), document.getElementById("f-new")];
+function send(id) {
+  for (const f of frames) {
+    try { if (f.contentWindow.anatomyScenario) { f.contentWindow.anatomyScenario(id); continue; } } catch (e) {}
+    try { f.contentWindow.postMessage({ type: "scenario", id }, "*"); } catch (e) {}
+  }
+}
+function render() {
+  const s = SCENARIOS[current];
+  document.getElementById("q-title").textContent = s.title;
+  document.getElementById("q-body").textContent = s.body;
+  const real = current !== "rest";
+  document.getElementById("q-tools").hidden = !real;
+  document.getElementById("q-answer").hidden = true;
+  document.getElementById("reveal").setAttribute("aria-expanded", "false");
+  document.getElementById("reveal").textContent = "Show the answer";
+  document.getElementById("q-answer-text").textContent = s.answer || "";
+  for (const b of document.querySelectorAll(".scenarios button")) b.setAttribute("aria-pressed", String(b.dataset.id === current));
+  for (const b of document.querySelectorAll(".vote button")) b.setAttribute("aria-pressed", String(votes[current] === b.dataset.pick));
+  const label = { old: "Old", new: "New", both: "Both", neither: "Neither" };
+  document.getElementById("score").innerHTML = ORDER.map((id, i) => `<tr><td>${i + 1} · ${id === "blindspot" ? "Blind spot" : id === "near" ? "Near focus" : "Dim light"}</td><td>${SCENARIOS[id].short}</td><td class="pick" data-pick="${votes[id] || ""}">${votes[id] ? label[votes[id]] : "not picked yet"}</td></tr>`).join("");
+}
+for (const b of document.querySelectorAll(".scenarios button")) b.addEventListener("click", () => { current = b.dataset.id; send(current); render(); });
+document.getElementById("reveal").addEventListener("click", (e) => {
+  const box = document.getElementById("q-answer"), open = box.hidden;
+  box.hidden = !open; e.currentTarget.setAttribute("aria-expanded", String(open)); e.currentTarget.textContent = open ? "Hide the answer" : "Show the answer";
+});
+for (const b of document.querySelectorAll(".vote button")) b.addEventListener("click", () => { votes[current] = b.dataset.pick; store.set(votes); render(); });
+for (const f of frames) f.addEventListener("load", () => {
+  try { const doc = f.contentDocument; const fit = () => { f.style.height = Math.ceil(doc.documentElement.scrollHeight) + "px"; }; fit(); new ResizeObserver(fit).observe(doc.body); } catch (e) {}
+  if (current !== "rest") send(current);
+});
+render();
+</script>

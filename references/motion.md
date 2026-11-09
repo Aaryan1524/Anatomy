@@ -154,6 +154,35 @@ When the user acts during the idle tour, stop the tour and leave the state where
 
 A step key pressed during the tour must step from the value the reader sees, not from the tour's target, which may be far ahead. The ripple tank's keys start from `freq.x` and `gap.x` while touring (`state.tf` and `state.td` otherwise), and `steer()` zeroes both springs' velocity when it takes over, so the value only moves in the key's direction.
 
+## Use cases
+Every figure offers up to three use cases by default (`SKILL.md`, workflow step 4): real situations the reader can try, each a named state of the model. Keep them in the model module next to everything else, so the readout, the note and the motion read from one place:
+
+```js
+// model: each use case is a target state plus the sentence that explains it
+const CASES = {
+  near: { label: "Look at something near", hue: "blue", to: { distance: 0.25 }, note: (s) => `The ciliary muscle contracts and the lens rounds up: power {{60 → ${s.power.toFixed(0)} D}}.` },
+  dim: { label: "Lights go dim", hue: "amber", to: { lux: 5 }, note: (s) => `The pupil opens {{3 → ${s.pupil.toFixed(1)} mm}} in about 4 s.` },
+};
+// art: tag exactly the parts that change in each case
+// `<g data-case-part="near">${lens}</g>`, `<g data-case-part="near dim">${iris}</g>`
+// readout, every frame: readout.innerHTML = markChange(`lens {{${power.toFixed(1)} D}} · focus ${d} m`)
+
+// page: the buttons come from plateHtml({ …, cases: Object.entries(CASES).map(([id, c]) => ({ id, label: c.label })) })
+const cases = bindCases((id) => {
+  takeOver();                                 // stop the idle tour, keep what the reader sees
+  target = id === "rest" ? REST : { ...REST, ...CASES[id].to };
+  run();                                      // the same eased loop as any other input
+  return id === "rest" ? "" : CASES[id].note(model(target));
+}, { stage });
+```
+
+- **Play it, don't jump to it.** A use case is just another input to the eased loop, so its parts travel the way the real ones do and its envelopes and springs still apply. Set the readout from the model every frame as usual. The note is for the settled state, so write it from the target.
+- **Hold until released.** A use case stays put until the reader picks another or presses the lit button again. The idle tour doesn't resume over it; it resumes on the usual idle timer only after a return to rest.
+- **Pointer and keys still work** inside a use case and move from its state. Keys 1–3 on the focused stage pick the cases, so keep 1–3 free for them.
+- **Three different insides.** Pick situations where something different happens (a part changes shape, a threshold trips, a limit is hit), not three sizes of one motion. If the concept has no such situations, give fewer, or none.
+- **Colour shows what changes.** One hue per case, chosen from what changes: blue for water or another fluid, red for heat, pressure or a pressed control, amber for light, green for growth or a pass, violet when nothing suggests one. Tag exactly the parts that change (`data-case-part="near"`, several ids if a part changes in several cases) and mark exactly the numbers that change (`{{…}}`), so the reader matches the picture to the maths by colour. A part that only sits near the change stays monochrome; a hue on everything says nothing.
+- **Reduced motion** jumps straight to the settled state, as everywhere else.
+
 ## Announcing phases
 For a machine with phases, add a visually hidden `aria-live="polite"` element and write only phase changes to it: `arming`, `chill-down, venting`, `preburners lit`, `main stage`, `shutdown`, `cold`. Never write per-frame numbers to it. For a continuous control, wait until the input has been quiet for about 700 ms before you announce (the ripple tank's `announce`). Leave the live region empty at load and fill it with the current state on `focus`, so a screen reader hears the state when it arrives rather than a stale line. A button whose label changes ("Ignite" to "Shut down") doesn't also need `aria-pressed`.
 

@@ -248,7 +248,10 @@ window.requestAnimationFrame = (callback) => raf((now) => {
 ## The review checklist
 **It is an object**
 - [ ] At a glance it reads as one real, well-made thing, and you can name it.
-- [ ] Its mechanism maps to the concept: what moves and what that means can be said in one sentence.
+- [ ] It is the concept's own object: the real thing for a physical subject, the concept's own elements for an abstract one, and an analogy only when neither fits (say which rung, and why).
+- [ ] Its mechanism maps to the concept: what moves and what that means can be said in one sentence, in the concept's terms.
+- [ ] A reader who has never met the concept can name its parts (tokens, connections, slots, stages) from the figure and its legend; the readout and caption use the concept's units, not the object's.
+- [ ] No part exists only for a metaphor.
 - [ ] It isn't a stack of abstract plates and isn't one plain slab.
 
 **Parts and volume**
@@ -283,6 +286,7 @@ window.requestAnimationFrame = (callback) => raf((now) => {
 - [ ] Eased, calm, no snapping; an idle tour; pauses on interaction.
 - [ ] Stops offscreen; still under `--reduced`; no console errors (including React key warnings).
 - [ ] Keyboard works, the focus ring shows, and `aria-valuetext` reads the state in words.
+- [ ] Up to three use cases sit under the card, each a real situation from the concept with something different happening inside. Each one plays (not jumps), holds until released, reads true numbers and shows a one-line note; exactly the parts and numbers that change take the case's hue, in both themes, and nothing else does; pressing it again returns to rest. `anatomyScenario(id)` drives each one, and every one was captured and looked at. If there are fewer than three, the delivery note says why.
 
 **Shaders (if the figure has one; `references/webgl.md`)**
 - [ ] A contact sheet across every transition (start, each phase change, steady, stop), slowed with `["slow", 0.05]` (or `--preload` with `window.__driveSpeed=0.04` for an effect that starts on load) so every frame of each crossfade shows: no sudden colour switch, no one-frame flash, nothing cut out, and brightness never rises during a fade-out.

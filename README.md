@@ -38,7 +38,7 @@
 
 ---
 
-Ask Claude for a figure that explains a technical idea, and Anatomy has it invent a physical thing whose working *is* the concept. A cache key that skips work when nothing changed becomes a pin-tumbler lock that only turns when every pin matches. One GPU context serving many canvases becomes a gantry plotter whose single print head visits 16 wells.
+Ask Claude for a figure that explains a technical idea, and Anatomy builds the idea itself as a real physical thing. A physical subject is drawn as the real object: a rocket engine in its test stand, coming apart into its assemblies. An abstract one is built from its own parts: a token-bucket rate limiter becomes a hopper of 20 token discs that a timed dispenser refills and each request draws from, so the reader learns the concept's real structure and words. Only when neither fits does it reach for an analogy, and then every moving part maps to one element of the concept.
 
 Then Claude builds that thing out of dozens of small, solid, shaded parts, puts it in a framed card with a title, a hint and a live readout, makes it move calmly under the pointer and the keyboard, and checks its own work by zooming in on every joint. Every number the figure shows comes from the same small model that moves its parts.
 
