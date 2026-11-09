@@ -6,12 +6,14 @@ All notable changes to Anatomy are recorded here. The format follows [Keep a Cha
 
 ### Added
 
+- Use cases. Every figure now offers up to three real situations the reader can play by default (look at something near, the bucket runs dry, the pool is full), each with true numbers and a one-line note, or says why it has fewer. While a case plays, exactly the parts that change (`data-case-part`) and the numbers that change (`{{…}}` through `markChange`) take that case's hue (`--anatomy-hue-blue`, `red`, `amber`, `green`, `violet`, tuned for both themes). `plateHtml({ cases })` and `<Plate cases>` render the buttons under the card, and `bindCases(play)` wires them, keys 1–3, and a `window.anatomyScenario(id)` / `{ type: "scenario", id }` hook so a parent page, `drive.mjs` or a test can drive the figure. SKILL.md workflow step 4, `references/motion.md` ("Use cases"), `references/kit.md` and the review checklist describe it; `scripts/use-cases.test.mjs` covers the helper.
 - Printable sheets. `scripts/print.mjs` freezes poses of a built figure as vector stills (WebGL as a 2× PNG) and prints one A4 or US Letter PDF in three formats: `poster` (one page: big name, numbers, pinned figure and a line per part), `drawing` (one page: parts list, specification, inset and a strip of lit steps) and `detailed` (two pages: pinned figure with round close-ups, then large lit steps with text and the why). Parts are CSS selectors over the live SVG, so any figure can be printed; crowded pins spread apart with hairline leaders, and the script fails when a format runs past its pages. `examples/raptor-engine/sheet.mjs` and `examples/arcade-cabinet/sheet.mjs` are the references, `references/print.md` the guide.
 - Antigravity support, alongside Claude Code, OpenCode and Codex. Documented user and project installation paths in the README and CONTRIBUTING, updated SKILL.md compatibility, and added Antigravity to the bug report form.
 - MiniMax Code support. The README and CONTRIBUTING document its user (`~/.minimax/skills`) and project (`.minimax/skills`) folders and `npx skills add ... -a minimax-code`, SKILL.md lists it, and the bug report form offers it.
 
 ### Changed
 
+- Literal first. Figures now build the concept's own object instead of reaching for a metaphor: the real thing for a physical subject, the concept's own elements as parts for an abstract one (a hopper of tokens, a rack of pooled connections), and an analogy only as a last resort, mapped one to one. The readout, legend and caption use the concept's own words. SKILL.md, `references/craft.md`, `references/verify.md`, the README and evals 1–3 are updated.
 - A Figure no longer quotes a time to the user. The 30–90 minute estimate was often far longer than the build itself ([#41](https://github.com/wheresryan22/anatomy/issues/41)).
 
 ### Fixed

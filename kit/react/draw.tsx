@@ -158,10 +158,17 @@ interface PlateProps {
   readout?: React.ReactNode;
   keys?: LegendKey[];
   caption?: React.ReactNode;
+  cases?: { id: string; label: string; hue?: string }[];
   children: React.ReactNode;
 }
 
-export function Plate({ fig, title, hint, readout, keys = [], caption, children }: PlateProps) {
+const CASE_HUES = ["blue", "amber", "violet", "red", "green"];
+const caseHue = (hue: string | undefined, index: number) => {
+  const name = hue || CASE_HUES[index % CASE_HUES.length];
+  return CASE_HUES.includes(name) ? `var(--anatomy-hue-${name})` : name;
+};
+
+export function Plate({ fig, title, hint, readout, keys = [], caption, cases = [], children }: PlateProps) {
   return (
     <figure className="iso-figure">
       <div className="iso-plate">
@@ -185,6 +192,25 @@ export function Plate({ fig, title, hint, readout, keys = [], caption, children 
         </div>
         {children}
       </div>
+      {cases.length ? (
+        <div className="iso-cases" role="group" aria-label="Use cases">
+          {cases.slice(0, 3).map((item, index) => (
+            <button
+              type="button"
+              className="iso-case"
+              data-case={item.id}
+              aria-pressed="false"
+              key={item.id}
+              style={{ ["--case-hue" as string]: caseHue(item.hue, index) } as React.CSSProperties}
+            >
+              <span className="iso-case-n">{index + 1}</span>
+              <span className="iso-case-swatch" aria-hidden="true" />
+              {item.label}
+            </button>
+          ))}
+          <p className="iso-case-note" data-case-note="" aria-live="polite" hidden />
+        </div>
+      ) : null}
       {keys.length || caption ? (
         <figcaption className="iso-legend">
           {keys.length ? (

@@ -4,7 +4,7 @@
   --anatomy-paper:#131313;--anatomy-face:#1b1b1b;--anatomy-top:#1c1c1c;
   --anatomy-shade-0:#0f0f0f;--anatomy-shade-1:#121212;--anatomy-shade-2:#151515;--anatomy-shade-3:#181818;
   --anatomy-lit-top:#262626;--anatomy-lit-shade:#1d1d1d;
-  --anatomy-hi:#d4d4d4;--anatomy-mid:#6a6a6a;--anatomy-lo:#3e3e3e;--anatomy-faint:#2a2a2a;--anatomy-lit:#ffffff;
+  --anatomy-hi:#d4d4d4;--anatomy-mid:#6a6a6a;--anatomy-lo:#3e3e3e;--anatomy-faint:#2a2a2a;--anatomy-lit:#ffffff;--anatomy-hue-blue:#5aa9e6;--anatomy-hue-red:#ef6f5a;--anatomy-hue-amber:#e3a53c;--anatomy-hue-green:#5cc08a;--anatomy-hue-violet:#a98bf0;
   --anatomy-halo:#050505;--anatomy-halo-opacity:.9;--anatomy-dot:#e6e6e6;
   --anatomy-red:#ff6b6b;--anatomy-green:#6be0a0;--anatomy-blue:#6b9bff;
   --anatomy-weight:.6px;--anatomy-ease:cubic-bezier(.32,.72,0,1);
@@ -16,7 +16,7 @@
   --anatomy-paper:#fbfbfa;--anatomy-face:#ffffff;--anatomy-top:#ffffff;
   --anatomy-shade-0:#dcdcd9;--anatomy-shade-1:#e5e5e2;--anatomy-shade-2:#ededea;--anatomy-shade-3:#f4f4f1;
   --anatomy-lit-top:#ffffff;--anatomy-lit-shade:#eeeeeb;
-  --anatomy-hi:#26262a;--anatomy-mid:#8a8a8f;--anatomy-lo:#b4b4b8;--anatomy-faint:#d4d4d6;--anatomy-lit:#000000;
+  --anatomy-hi:#26262a;--anatomy-mid:#8a8a8f;--anatomy-lo:#b4b4b8;--anatomy-faint:#d4d4d6;--anatomy-lit:#000000;--anatomy-hue-blue:#1f6fb2;--anatomy-hue-red:#c2412d;--anatomy-hue-amber:#9a6410;--anatomy-hue-green:#2b7a4b;--anatomy-hue-violet:#6d4bc4;
   --anatomy-halo:#8a8a80;--anatomy-halo-opacity:.32;--anatomy-dot:#3a3a3e;
   --anatomy-red:#e5484d;--anatomy-green:#30a46c;--anatomy-blue:#3e63dd;
   --anatomy-lift:inset 0 1px 0 0 #ffffff,0 0 0 1px #0000000f,0 1px 1px -.5px #0000000a,0 3px 3px -1.5px #0000000a,0 6px 6px -3px #0000000a,0 12px 12px -6px #0000000a;
@@ -91,6 +91,8 @@
 .iso-plate .iso-svg{margin:0 auto}
 .iso-legend{display:grid;gap:8px;margin-top:12px;color:var(--anatomy-muted);font-size:13px;line-height:1.55}
 .iso-keys{display:flex;flex-wrap:wrap;gap:6px 18px}
+.iso-cases{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px}.iso-case{display:inline-flex;align-items:baseline;gap:6px;padding:7px 10px;border:1px solid var(--anatomy-lo);border-radius:0;background:transparent;color:var(--anatomy-text);font:500 12px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}.iso-case:hover{border-color:var(--anatomy-mid)}.iso-case[aria-pressed="true"]{border-color:var(--anatomy-hi);color:var(--anatomy-strong)}.iso-case:focus-visible{outline:1px solid var(--anatomy-hi);outline-offset:2px}.iso-case-n{font-family:var(--anatomy-mono);font-size:10.5px;color:var(--anatomy-muted)}.iso-case-note{flex-basis:100%;margin:4px 0 0;color:var(--anatomy-text);font-size:13px;line-height:1.55}
+.iso-case-swatch{align-self:center;width:8px;height:8px;background:var(--case-hue,var(--anatomy-mid))}.iso-case[aria-pressed="true"]{border-color:var(--case-hue,var(--anatomy-hi))}.iso-change{color:var(--anatomy-change,var(--anatomy-strong));font-weight:600}.iso .iso-figure [data-change] .iso-edge,.iso .iso-figure [data-change] .iso-crease,.iso .iso-figure [data-change] .iso-bevel,.iso .iso-figure [data-change] .iso-line,.iso .iso-figure .iso-line[data-change]{stroke:var(--anatomy-change)}.iso .iso-figure [data-change] .iso-top{fill:color-mix(in srgb,var(--anatomy-change) 28%,var(--anatomy-top));stroke:color-mix(in srgb,var(--anatomy-change) 28%,var(--anatomy-top))}.iso .iso-figure [data-change] .iso-shade,.iso .iso-figure [data-change] .iso-fill{fill:color-mix(in srgb,var(--anatomy-change) 18%,var(--anatomy-face))}.iso .iso-figure [data-change] .iso-dots circle,.iso .iso-figure .iso-dots[data-change] circle,.iso .iso-figure [data-change] .iso-wire-end{fill:var(--anatomy-change);stroke:var(--anatomy-change)}.iso path[data-case-part],.iso [data-case-part] path,.iso [data-case-part] circle{transition:fill 450ms ease,stroke 450ms ease}@media (prefers-reduced-motion:reduce){.iso path[data-case-part],.iso [data-case-part] path,.iso [data-case-part] circle{transition:none}}
 .iso-key{display:inline-flex;align-items:center;gap:7px}
 .iso-swatch{width:16px;height:10px;flex:none;overflow:visible}
 .iso-swatch path{fill:none;stroke:var(--anatomy-hi);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
